@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Objective: Build server-enabled, file-based routed apps using the Next.js App Router.
 
-## Getting Started
+Live Class 1: Routing, Layouts & Metadata
+App directory structure, nested routes
 
-First, run the development server:
+ক্লাস ১:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+✅ App Directory Structure
+✅ File-based Routing
+✅ Nested Routes (/dashboard/settings)
+✅ Layout Components (Root Layout, Nested Layout)
+✅ Static এবং Dynamic Metadata
+✅ SEO Optimization
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Live Class 2: API Routes & Server Components
+Dynamic pages, fetch on server, error handling
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+ক্লাস ২:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+✅ API Routes (GET, POST, PUT)
+✅ Dynamic API Routes ([id])
+✅ Server Components
+✅ Data Fetching on Server
+✅ Error Handling (not-found.tsx)
+✅ Dynamic Pages ([id]/page.tsx)
 
-## Learn More
+my-nextjs-app/
+├── app/
+│ ├── globals.css
+│ ├── layout.tsx # মূল লেআউট
+│ ├── page.tsx # হোম পেজ
+│ ├── about/
+│ │ └── page.tsx # অ্যাবাউট পেজ
+│ ├── products/
+│ │ ├── page.tsx # প্রোডাক্ট লিস্ট
+│ │ └── [id]/
+│ │ └── page.tsx # ডাইনামিক প্রোডাক্ট পেজ
+├── (marketing)/
+│ ├── about/
+│ │ └── page.tsx # /about
+│ └── contact/
+│ | └── page.tsx # /contact
+│ ├── dashboard/
+│ │ ├── layout.tsx # ড্যাশবোর্ড লেআউট
+│ │ ├── page.tsx # ড্যাশবোর্ড হোম
+│ │ └── settings/
+│ │ └── page.tsx # সেটিংস পেজ
+│ └── api/
+│ ├── products/
+│ │ └── route.ts # API রুট
+│ └── users/
+│ └── [id]/
+│ └── route.ts # ডাইনামিক API রুট
+├── components/
+│ ├── Header.tsx
+│ ├── Footer.tsx
+│ └── ProductCard.tsx
+└── types/
+└── index.ts
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+app/
+├── layout.tsx # Root layout (applies to all pages)
+├── page.tsx # Home page (/)
+├── about/
+│ ├── page.tsx # About page (/about)
+│ └── team/
+│ └── page.tsx # Team page (/about/team)
+├── blog/
+│ ├── layout.tsx # Blog-specific layout
+│ ├── page.tsx # Blog listing (/blog)
+│ └── [slug]/
+│ └── page.tsx # Dynamic post (/blog/hello-world)
+└── (marketing)/ # Route group (no URL path)
+└── contact/
+└── page.tsx # Contact page (/contact)
