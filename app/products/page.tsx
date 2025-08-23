@@ -1,4 +1,4 @@
-import type { Product } from "@/app/api/products/routes";
+import type { Product } from "@/app/api/products/route";
 import Link from "next/link";
 
 // সার্ভার কম্পোনেন্টে ডেটা ফেচ ফাংশন

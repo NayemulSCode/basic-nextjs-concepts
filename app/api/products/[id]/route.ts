@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Product } from "../routes";
+import { Product } from "../route";
 
 // নমুনা ডেটা (বাস্তবে ডেটাবেজ থেকে আসবে)
 const products: Product[] = [

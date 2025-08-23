@@ -1,4 +1,4 @@
-import type { Product } from "@/app/api/products/routes";
+import type { Product } from "@/app/api/products/route";
 import { notFound } from "next/navigation";
 
 // একক পণ্যের তথ্য পেতে
