@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 // একক পণ্যের তথ্য পেতে
 async function getProduct(id: string): Promise<Product | null> {
   try {
-    const res = await fetch(`http://localhost:3000/api/products/${id}`, {
+    const res = await fetch(`http://localhost:3001/api/products/${id}`, {
       cache: "no-store",
     });
 
@@ -45,6 +45,7 @@ export default async function ProductDetailPage({
   params: { id: string };
 }) {
   const product = await getProduct(params.id);
+  console.log("🚀 ~ ProductDetailPage ~ product:", product)
 
   // যদি পণ্য না পাওয়া যায়
   if (!product) {

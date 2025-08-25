@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="bn" className="h-full">
+    <html lang="bn" className="h-full" suppressHydrationWarning>
       <body className={`${inter.className} h-full flex flex-col`}>
         <Header />
         <main className="flex-1">{children}</main>

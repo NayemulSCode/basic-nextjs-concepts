@@ -50,6 +50,7 @@ export async function GET(request: NextRequest) {
 
     // কৃত্রিম বিলম্ব (বাস্তব API অনুকরণ করতে)
     await new Promise((resolve) => setTimeout(resolve, 500));
+    //  new Promise((resolve) => setTimeout(resolve, 500));
 
     return NextResponse.json({
       success: true,

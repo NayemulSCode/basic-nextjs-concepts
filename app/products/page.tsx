@@ -5,9 +5,10 @@ import Link from "next/link";
 async function getProducts(): Promise<Product[]> {
   try {
     // বাস্তবে এটি external API বা ডেটাবেজ হবে
-    const res = await fetch("http://localhost:3000/api/products", {
+    const res = await fetch("http://localhost:3001/api/products", {
       cache: "no-store", // সর্বদা fresh ডেটা পেতে
     });
+    console.log("🚀 ~ getProducts ~ res:", res)
 
     if (!res.ok) {
       throw new Error("পণ্য লোড করতে সমস্যা হয়েছে");
