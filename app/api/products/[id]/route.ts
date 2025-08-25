@@ -22,12 +22,14 @@ const products: Product[] = [
 // GET - একক পণ্যের তথ্য
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  // { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id);
-    const product = products.find((p) => p.id === id);
-
+    // const productId = parseInt(params.id);
+    const { id } = await context.params; // ✅ await params
+    const productId = parseInt(id);
+    const product = products.find((p) => p.id === productId);
     if (!product) {
       return NextResponse.json(
         { success: false, error: "পণ্য পাওয়া যায়নি" },

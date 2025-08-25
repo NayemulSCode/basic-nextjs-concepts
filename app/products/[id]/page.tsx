@@ -24,9 +24,14 @@ async function getProduct(id: string): Promise<Product | null> {
 }
 
 // Dynamic metadata generation
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const product = await getProduct(params.id);
-
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  // const product = await getProduct(params.id);
+  const { id } = await params; // ✅ await params
+  const product = await getProduct(id);
   if (!product) {
     return {
       title: "পণ্য পাওয়া যায়নি",
@@ -44,7 +49,8 @@ export default async function ProductDetailPage({
 }: {
   params: { id: string };
 }) {
-  const product = await getProduct(params.id);
+  const { id } = await params;
+  const product = await getProduct(id);
   console.log("🚀 ~ ProductDetailPage ~ product:", product)
 
   // যদি পণ্য না পাওয়া যায়

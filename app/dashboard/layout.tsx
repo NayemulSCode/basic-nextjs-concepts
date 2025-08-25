@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "ড্যাশবোর্ড",
@@ -19,18 +20,24 @@ export default function DashboardLayout({
             ড্যাশবোর্ড
           </h2>
           <nav className="space-y-2">
-            <a
+            <Link
               href="/dashboard"
               className="block px-4 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-md"
             >
               হোম
-            </a>
-            <a
+            </Link>
+            <Link
+              href="/dashboard/users"
+              className="block px-4 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-md"
+            >
+              ব্যবহারকারী
+            </Link>
+            <Link
               href="/dashboard/settings"
               className="block px-4 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-md"
             >
               সেটিংস
-            </a>
+            </Link>
           </nav>
         </div>
       </div>
