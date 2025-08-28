@@ -38,7 +38,7 @@ type FeedItem = {
 };
 
 async function getFeed(): Promise<FeedItem[]> {
-  const res = await fetch("http://localhost:3000/api/feed", {
+  const res = await fetch("http://localhost:3001/api/feed", {
     cache: "no-store", // always fresh
   });
   return res.json();

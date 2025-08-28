@@ -1,7 +1,10 @@
+import { auth } from "@/auth";
 import Counter from "@/components/Counter";
 import Link from "next/link";
 
 export default async function Home() {
+    const session = await auth();
+    console.log("🚀 ~ Home ~ session:", session)
   console.log("Home page rendered");
   // Promise (asynchronous)
   function getPromiseValue() {

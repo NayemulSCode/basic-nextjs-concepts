@@ -5,7 +5,7 @@ type TrendingItem = {
 };
 
 async function getTrending(): Promise<TrendingItem[]> {
-  const res = await fetch("http://localhost:3000/api/trending", {
+  const res = await fetch("http://localhost:3001/api/trending", {
     cache: "no-store",
   });
   return res.json();
