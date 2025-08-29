@@ -1,14 +1,14 @@
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 
-import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
-import bcryptjs from "bcryptjs";
-import { JWT } from "next-auth/jwt";
+import bcrypt from "bcryptjs";
 import { Session } from "next-auth";
+import { JWT } from "next-auth/jwt";
+import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 
 // Define proper types for demo users
 // TypeScript type extensions
-declare module 'next-auth' {
+declare module "next-auth" {
   interface User {
     id: string;
     name: string;
@@ -80,7 +80,7 @@ export default {
 
         if (!user) return null;
 
-        const passwordsMatch = await bcryptjs.compare(password, user.password);
+        const passwordsMatch = await bcrypt.compare(password, user.password);
 
         if (passwordsMatch) {
           // Return the full user object as required by the type

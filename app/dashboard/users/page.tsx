@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface User {
   id: string;
@@ -20,7 +20,7 @@ export default function Users() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch("/api/users");
+        const response = await fetch("http://localhost:3001/api/auth/users");
         if (response.ok) {
           const data = await response.json();
           setUsers(data);

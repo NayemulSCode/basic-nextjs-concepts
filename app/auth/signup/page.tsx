@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
@@ -37,7 +37,7 @@ export default function SignUp() {
     }
 
     try {
-      const response = await fetch("/api/auth/register", {
+      const response = await fetch("http://localhost:3001/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
