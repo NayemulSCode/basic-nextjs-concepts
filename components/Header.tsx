@@ -1,6 +1,11 @@
+"use client";
+
+import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 
 export default function Header() {
+  const { data: session } = useSession();
+
   return (
     <header className="bg-white shadow-sm">
       <div className="container mx-auto px-4">
@@ -9,7 +14,7 @@ export default function Header() {
             আমার অ্যাপ
           </Link>
 
-          <nav className="flex space-x-6">
+          <nav className="flex items-center space-x-6">
             <Link href="/" className="text-gray-600 hover:text-blue-600">
               হোম
             </Link>
@@ -28,6 +33,26 @@ export default function Header() {
             >
               ড্যাশবোর্ড
             </Link>
+            {session ? (
+              <>
+                <span className="text-gray-800">
+                  Welcome, {session.user?.name}
+                </span>
+                <button
+                  onClick={() => signOut()}
+                  className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => signIn()}
+                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+              >
+                Login
+              </button>
+            )}
           </nav>
         </div>
       </div>

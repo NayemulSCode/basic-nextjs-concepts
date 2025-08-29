@@ -57,7 +57,7 @@ export async function GET(request: NextRequest) {
       data: filteredProducts,
       total: filteredProducts.length,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: "পণ্য লোড করতে সমস্যা হয়েছে" },
       { status: 500 }
@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
       },
       { status: 201 }
     );
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: "পণ্য যোগ করতে সমস্যা হয়েছে" },
       { status: 400 }

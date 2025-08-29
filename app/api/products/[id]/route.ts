@@ -41,7 +41,7 @@ export async function GET(
       success: true,
       data: product,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: "পণ্যের তথ্য লোড করতে সমস্যা হয়েছে" },
       { status: 500 }
@@ -73,7 +73,7 @@ export async function PUT(
       data: products[productIndex],
       message: "পণ্যের তথ্য আপডেট হয়েছে",
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: "পণ্য আপডেট করতে সমস্যা হয়েছে" },
       { status: 400 }

@@ -1,3 +1,4 @@
+import AuthProvider from "@/app/context/AuthProvider";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import type { Metadata } from "next";
@@ -25,9 +26,11 @@ export default function RootLayout({
   return (
     <html lang="bn" className="h-full" suppressHydrationWarning>
       <body className={`${inter.className} h-full flex flex-col`}>
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <AuthProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );
