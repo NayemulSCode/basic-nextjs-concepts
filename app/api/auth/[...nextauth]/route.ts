@@ -1,8 +1,7 @@
+import { User, users } from "@/app/lib/data";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import bcrypt from "bcryptjs";
-import { users, User } from "@/app/lib/data";
 
 const handler = NextAuth({
   providers: [
@@ -18,8 +17,9 @@ const handler = NextAuth({
         }
 
         const user = users.find((user) => user.email === credentials.email);
+        console.log("🚀 ~ authorize ~ user:", user);
 
-        if (user && user.provider === 'credentials' && user.password) {
+        if (user && user.provider === "credentials" && user.password) {
           // This is a mock comparison. In a real app, you'd use bcrypt.
           // For this example, we'll just compare plaintext passwords.
           // Note: The data.ts file should ideally have hashed passwords.
@@ -27,7 +27,10 @@ const handler = NextAuth({
           const isPasswordCorrect = credentials.password === user.password;
 
           // A real implementation would look like this:
-          // const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
+          // const isPasswordCorrect = await bcrypt.compare(
+          //   credentials.password,
+          //   user.password
+          // );
 
           if (isPasswordCorrect) {
             return user;
@@ -61,17 +64,17 @@ const handler = NextAuth({
     },
     async jwt({ token, user }) {
       if (user) {
-        const dbUser = users.find(u => u.email === user.email);
+        const dbUser = users.find((u) => u.email === user.email);
         if (dbUser) {
-            token.id = dbUser.id;
-            token.role = dbUser.role;
-            token.provider = dbUser.provider;
+          token.id = dbUser.id;
+          token.role = dbUser.role;
+          token.provider = dbUser.provider;
         }
       }
       return token;
     },
     async session({ session, token }) {
-      if (session?.user) {
+      if (token) {
         session.user.id = token.id;
         session.user.role = token.role;
         session.user.provider = token.provider;

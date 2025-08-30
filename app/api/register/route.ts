@@ -1,12 +1,15 @@
-import { NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
 import { users } from "@/app/lib/data";
+import bcrypt from "bcryptjs";
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
     const { firstName, lastName, email, password } = await req.json();
+    console.log("🚀 ~ POST ~ email:", email);
+    console.log("🚀 ~ POST ~ password:", password);
 
     const userExists = users.find((user) => user.email === email);
+    console.log("🚀 ~ POST ~ userExists:", userExists);
 
     if (userExists) {
       return NextResponse.json(
@@ -28,11 +31,9 @@ export async function POST(req: Request) {
     };
 
     users.push(newUser);
+    console.log("🚀 ~ POST ~ newUser:", newUser);
 
-    return NextResponse.json(
-      { message: "User registered." },
-      { status: 201 }
-    );
+    return NextResponse.json({ message: "User registered." }, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { message: "An error occurred while registering the user." },

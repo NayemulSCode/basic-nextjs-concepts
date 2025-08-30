@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function ProfilePage() {
   const { data: session, update } = useSession();
@@ -29,7 +29,7 @@ export default function ProfilePage() {
     }
 
     try {
-      const res = await fetch(`/api/profile`, {
+      const res = await fetch(`http:3001/api/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -70,9 +70,15 @@ export default function ProfilePage() {
       <h1 className="text-2xl font-bold mb-6">Edit Profile</h1>
       <div className="bg-white p-8 rounded-lg shadow-md">
         <div className="mb-4">
-          <p><strong>Email:</strong> {user?.email}</p>
-          <p><strong>Role:</strong> {user?.role}</p>
-          <p><strong>Provider:</strong> {user?.provider}</p>
+          <p>
+            <strong>Email:</strong> {user?.email}
+          </p>
+          <p>
+            <strong>Role:</strong> {user?.role}
+          </p>
+          <p>
+            <strong>Provider:</strong> {user?.provider}
+          </p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
@@ -87,7 +93,7 @@ export default function ProfilePage() {
               type="text"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              disabled={user?.provider === 'google'}
+              disabled={user?.provider === "google"}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100"
             />
           </div>
@@ -103,11 +109,11 @@ export default function ProfilePage() {
               type="text"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              disabled={user?.provider === 'google'}
+              disabled={user?.provider === "google"}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm disabled:bg-gray-100"
             />
           </div>
-          {user?.provider === 'credentials' && (
+          {user?.provider === "credentials" && (
             <div>
               <button
                 type="submit"
@@ -119,10 +125,10 @@ export default function ProfilePage() {
           )}
         </form>
         {message && <p className="mt-4 text-center">{message}</p>}
-        {user?.provider === 'google' && (
-            <p className="mt-4 text-center text-sm text-gray-500">
-                Profile editing is disabled for users who signed in with Google.
-            </p>
+        {user?.provider === "google" && (
+          <p className="mt-4 text-center text-sm text-gray-500">
+            Profile editing is disabled for users who signed in with Google.
+          </p>
         )}
       </div>
     </div>
