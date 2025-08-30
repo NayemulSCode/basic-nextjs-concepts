@@ -1,9 +1,8 @@
 "use client";
 
-import { signIn } from "next-auth/react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -80,9 +79,7 @@ export default function LoginPage() {
             <div className="w-full border-t border-gray-300" />
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white text-gray-500">
-              Or continue with
-            </span>
+            <span className="px-2 bg-white text-gray-500">Or continue with</span>
           </div>
         </div>
         <div>
@@ -94,12 +91,9 @@ export default function LoginPage() {
           </button>
         </div>
         <div className="text-sm text-center">
-          <Link
-            href="/register"
-            className="font-medium text-indigo-600 hover:text-indigo-500"
-          >
-            Don&apos;t have an account? Register
-          </Link>
+            <Link href="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
+                Don&apos;t have an account? Register
+            </Link>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { users } from "@/app/lib/data";
+import { readUsers, writeUsers } from "@/app/lib/data";
 import { getServerSession } from "next-auth";
 
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
@@ -13,6 +13,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     try {
         const { id } = params;
         const { role } = await req.json();
+        const users = readUsers();
 
         const userIndex = users.findIndex((user) => user.id === id);
 
@@ -29,6 +30,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         }
 
         users[userIndex].role = role;
+        writeUsers(users);
 
         return NextResponse.json({ message: "User role updated" }, { status: 200 });
 

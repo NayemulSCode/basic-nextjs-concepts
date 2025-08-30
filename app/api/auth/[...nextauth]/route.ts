@@ -1,7 +1,8 @@
-import { User, users } from "@/app/lib/data";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import bcrypt from "bcryptjs";
+import { readUsers, writeUsers, User } from "@/app/lib/data";
 
 const handler = NextAuth({
   providers: [
@@ -16,21 +17,15 @@ const handler = NextAuth({
           return null;
         }
 
+        const users = readUsers();
         const user = users.find((user) => user.email === credentials.email);
-        console.log("🚀 ~ authorize ~ user:", user);
 
-        if (user && user.provider === "credentials" && user.password) {
-          // This is a mock comparison. In a real app, you'd use bcrypt.
-          // For this example, we'll just compare plaintext passwords.
-          // Note: The data.ts file should ideally have hashed passwords.
-          // We are using plaintext here to avoid needing a live bcrypt execution environment.
-          const isPasswordCorrect = credentials.password === user.password;
-
-          // A real implementation would look like this:
-          // const isPasswordCorrect = await bcrypt.compare(
-          //   credentials.password,
-          //   user.password
-          // );
+        if (user && user.provider === 'credentials' && user.password) {
+          // For the initial hardcoded users, we compare plaintext.
+          // For users registered via the form, we compare the hash.
+          const isPasswordCorrect = user.password.startsWith('$2a$')
+            ? await bcrypt.compare(credentials.password, user.password)
+            : credentials.password === user.password;
 
           if (isPasswordCorrect) {
             return user;
@@ -48,6 +43,7 @@ const handler = NextAuth({
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === "google") {
+        const users = readUsers();
         const userExists = users.find((u) => u.email === user.email);
         if (!userExists && user.email) {
           const newUser: User = {
@@ -58,27 +54,39 @@ const handler = NextAuth({
             provider: "google",
           };
           users.push(newUser);
+          writeUsers(users);
         }
       }
       return true;
     },
-    async jwt({ token, user }) {
-      if (user) {
-        const dbUser = users.find((u) => u.email === user.email);
-        if (dbUser) {
-          token.id = dbUser.id;
-          token.role = dbUser.role;
-          token.provider = dbUser.provider;
+    async jwt({ token, user, account }) {
+      // Initial sign in
+      if (account && user) {
+        const users = readUsers();
+        const dbUser = users.find(u => u.email === user.email);
+
+        // This is a failsafe, the user should exist due to the signIn callback
+        if (!dbUser) {
+            return token;
         }
+
+        return {
+          ...token,
+          id: dbUser.id,
+          role: dbUser.role,
+          provider: dbUser.provider,
+          name: dbUser.name,
+        };
       }
       return token;
     },
     async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id;
-        session.user.role = token.role;
-        session.user.provider = token.provider;
-      }
+      // The token now has all our custom properties
+      session.user.id = token.id;
+      session.user.role = token.role;
+      session.user.provider = token.provider;
+      session.user.name = token.name;
+
       return session;
     },
   },

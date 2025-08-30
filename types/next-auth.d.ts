@@ -16,9 +16,9 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
   /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
   interface JWT {
-    /** OpenID ID Token */
     id: string;
     role: 'admin' | 'user';
     provider: 'credentials' | 'google';
+    name?: string | null;
   }
 }

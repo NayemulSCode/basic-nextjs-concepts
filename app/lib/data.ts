@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+
 export type User = {
   id: string;
   firstName?: string | null;
@@ -5,39 +8,27 @@ export type User = {
   name?: string | null;
   email: string;
   password?: string | null;
-  role: "admin" | "user";
-  provider: "credentials" | "google";
+  role: 'admin' | 'user';
+  provider: 'credentials' | 'google';
 };
 
-export const users: User[] = [
-  {
-    id: "1",
-    firstName: "Admin",
-    lastName: "User",
-    name: "Admin User",
-    email: "admin@example.com",
-    password: "admin",
-    role: "admin",
-    provider: "credentials",
-  },
-  {
-    id: "2",
-    firstName: "Regular",
-    lastName: "User",
-    name: "Regular User",
-    email: "user@example.com",
-    password: "user",
-    role: "user",
-    provider: "credentials",
-  },
-  {
-    id: "3",
-    firstName: "test ",
-    lastName: "user",
-    name: "test  user",
-    email: "testuser@gmail.com",
-    password: "$2b$10$aNR8tLzAtOUKsTmPTlFypeN6KV472PbboDBktEb9p2atG7wZFJ75q",
-    role: "user",
-    provider: "credentials",
-  },
-];
+const dataFilePath = path.join(process.cwd(), 'app/lib/data.json');
+
+export function readUsers(): User[] {
+  try {
+    const jsonData = fs.readFileSync(dataFilePath, 'utf-8');
+    return JSON.parse(jsonData);
+  } catch (error) {
+    console.error('Error reading users data:', error);
+    return [];
+  }
+}
+
+export function writeUsers(users: User[]): void {
+  try {
+    const jsonData = JSON.stringify(users, null, 2);
+    fs.writeFileSync(dataFilePath, jsonData, 'utf-8');
+  } catch (error) {
+    console.error('Error writing users data:', error);
+  }
+}

@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
-import { users } from "@/app/lib/data";
+import { readUsers, writeUsers } from "@/app/lib/data";
 
 export async function PUT(req: Request) {
   try {
     const { userId, firstName, lastName } = await req.json();
+    const users = readUsers();
 
     const userIndex = users.findIndex((user) => user.id === userId);
 
@@ -27,6 +28,8 @@ export async function PUT(req: Request) {
         lastName,
         name: `${firstName} ${lastName}`,
     };
+
+    writeUsers(users);
 
     return NextResponse.json(
       { message: "Profile updated successfully." },
