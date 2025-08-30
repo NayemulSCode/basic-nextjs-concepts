@@ -90,6 +90,11 @@ export default function LoginPage() {
             Sign in with Google
           </button>
         </div>
+        <div className="text-sm text-center">
+            <Link href="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
+                Don&apos;t have an account? Register
+            </Link>
+        </div>
       </div>
     </div>
   );

@@ -35,6 +35,12 @@ export default function Header() {
             </Link>
             {session ? (
               <>
+                <Link
+                  href="/dashboard/profile"
+                  className="text-gray-600 hover:text-blue-600"
+                >
+                  Profile
+                </Link>
                 <span className="text-gray-800">
                   Welcome, {session.user?.name}
                 </span>
