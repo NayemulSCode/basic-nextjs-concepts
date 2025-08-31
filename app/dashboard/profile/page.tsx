@@ -29,7 +29,7 @@ export default function ProfilePage() {
     }
 
     try {
-      const res = await fetch(`/api/profile`, {
+      const res = await fetch(`http://localhost:3001/api/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

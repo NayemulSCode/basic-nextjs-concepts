@@ -15,7 +15,7 @@ export default function UsersPage() {
     async function fetchUsers() {
       setLoading(true);
       try {
-        const res = await fetch("/api/users");
+        const res = await fetch("http://localhost:3001/api/users");
         if (!res.ok) {
           throw new Error("Failed to fetch users. Are you an admin?");
         }

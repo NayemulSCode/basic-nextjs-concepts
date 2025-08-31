@@ -1,10 +1,11 @@
-import NextAuth from "next-auth";
+import NextAuth, { AuthOptions, User as AuthUser, Account, Session } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 import { readUsers, writeUsers, User } from "@/app/lib/data";
+import { JWT } from "next-auth/jwt";
 
-const handler = NextAuth({
+export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -21,14 +22,13 @@ const handler = NextAuth({
         const user = users.find((user) => user.email === credentials.email);
 
         if (user && user.provider === 'credentials' && user.password) {
-          // For the initial hardcoded users, we compare plaintext.
-          // For users registered via the form, we compare the hash.
           const isPasswordCorrect = user.password.startsWith('$2a$')
             ? await bcrypt.compare(credentials.password, user.password)
             : credentials.password === user.password;
 
           if (isPasswordCorrect) {
-            return user;
+            const { password, ...userWithoutPassword } = user;
+            return userWithoutPassword as AuthUser;
           }
         }
 
@@ -41,14 +41,15 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    async signIn({ user, account }) {
+    async signIn({ user, account }: { user: AuthUser; account: Account | null }) {
       if (account?.provider === "google") {
         const users = readUsers();
         const userExists = users.find((u) => u.email === user.email);
         if (!userExists && user.email) {
+          // @ts-ignore
           const newUser: User = {
             id: (users.length + 1).toString(),
-            name: user.name,
+            name: user.name as string,
             email: user.email,
             role: "user",
             provider: "google",
@@ -59,13 +60,11 @@ const handler = NextAuth({
       }
       return true;
     },
-    async jwt({ token, user, account }) {
-      // Initial sign in
+    async jwt({ token, user, account }: { token: JWT; user?: AuthUser; account?: Account | null }) {
       if (account && user) {
         const users = readUsers();
         const dbUser = users.find(u => u.email === user.email);
 
-        // This is a failsafe, the user should exist due to the signIn callback
         if (!dbUser) {
             return token;
         }
@@ -80,13 +79,13 @@ const handler = NextAuth({
       }
       return token;
     },
-    async session({ session, token }) {
-      // The token now has all our custom properties
-      session.user.id = token.id;
-      session.user.role = token.role;
-      session.user.provider = token.provider;
-      session.user.name = token.name;
-
+    async session({ session, token }: { session: Session; token: JWT }) {
+      if (session.user) {
+        (session.user as any).id = token.id;
+        (session.user as any).role = token.role;
+        (session.user as any).provider = token.provider;
+        (session.user as any).name = token.name;
+      }
       return session;
     },
   },
@@ -97,6 +96,8 @@ const handler = NextAuth({
     strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

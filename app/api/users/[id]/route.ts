@@ -5,7 +5,6 @@ import { getServerSession } from "next-auth";
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
     const session = await getServerSession();
 
-    // @ts-ignore
     if (!session || session.user.role !== 'admin') {
         return NextResponse.json({ message: "Forbidden" }, { status: 403 });
     }
