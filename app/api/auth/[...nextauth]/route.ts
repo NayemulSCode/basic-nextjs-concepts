@@ -22,7 +22,7 @@ export const authOptions: AuthOptions = {
         const user = users.find((user) => user.email === credentials.email);
 
         if (user && user.provider === 'credentials' && user.password) {
-          const isPasswordCorrect = user.password.startsWith('$2a$')
+          const isPasswordCorrect = user.password.startsWith('$2b$')
             ? await bcrypt.compare(credentials.password, user.password)
             : credentials.password === user.password;
 

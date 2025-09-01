@@ -1,9 +1,9 @@
 [
   {
     "id": "1",
-    "firstName": "Admin e",
+    "firstName": "Admin",
     "lastName": "User",
-    "name": "Admin e User",
+    "name": "Admin User",
     "email": "admin@example.com",
     "password": "admin",
     "role": "admin",
@@ -17,6 +17,16 @@
     "email": "user@example.com",
     "password": "user",
     "role": "user",
+    "provider": "credentials"
+  },
+  {
+    "id": "3",
+    "firstName": "DEV",
+    "lastName": "Saheb",
+    "name": "DEV Saheb",
+    "email": "dev@gmail.com",
+    "password": "$2b$10$WuX/PVyFcarTMoZyCdM4ZOmS0tL5OIUgZhG8kfWzlDk/JY2awceSC",
+    "role": "admin",
     "provider": "credentials"
   }
 ]
